@@ -1,2 +1,2 @@
 # litejs
-A lite weight javascript framework 
+A lite weight javascript library
