@@ -1,0 +1,22 @@
+{
+  "name": "litejs",
+  "version": "0.0.1",
+  "description": "A lite weight javascript library",
+  "main": "lite.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zxc0328/litejs.git"
+  },
+  "author": "ccnuzindex",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zxc0328/litejs/issues"
+  },
+  "homepage": "https://github.com/zxc0328/litejs#readme",
+  "devDependencies": {
+    "http-server": "^0.8.5"
+  }
+}
