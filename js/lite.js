@@ -21,8 +21,12 @@ define([], function () {
             elem.className = newClass.replace(/^\s+|\s+$/g, '');
         }
     }
+    var indexOf = function (parent,child) {
+         return Array.prototype.indexOf.call(parent,child);
+    }
     return {
         addClass : addClass,
-        removeClass : removeClass
+        removeClass : removeClass,
+        indexOf :indexOf
     }
 })

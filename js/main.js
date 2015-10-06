@@ -1,5 +1,5 @@
 requirejs(["lite"], function(l) {
-    var ele = document.getElementById('ele');
-    l.addClass(ele,'test3');
-    //l.addClass(ele,'test4');
+    var child = document.querySelector("#target"),
+        parent = document.querySelectorAll(".test1");
+    console.log(l.indexOf(parent,child));
 });
