@@ -7,7 +7,7 @@ So Litejs will provide you with an amazing variety of Apis.
 
 ##Get started
 **requirejs**  
-##Api reference
+##Api reference  
 
 
 ###Lite-dom(under devlopment)
