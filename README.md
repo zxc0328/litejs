@@ -6,7 +6,7 @@ jQuery and Zeptojs are pretty awesome. But now we are developing websites runnin
 So Litejs will provide you with an amazing variety of Apis.
 
 ##Get started
-
+**requirejs**
 ##Api reference
 
 
