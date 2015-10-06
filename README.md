@@ -1,5 +1,5 @@
 # Litejs
-A lite weight javascript library
+A lite weight javascript library. Litejs aims the basic need of dom manipulation, network request, touch event support and so on in front-end development. It will be widely used in all the products of Muxistudio.
 
 
 ###lite-dom
