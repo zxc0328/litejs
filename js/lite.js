@@ -116,10 +116,10 @@ define([], function () {
     var swipe = function (elements, event_name, fn) {
         var swipeEvent = new _Event();
         swipeEvent.addEvent(event_name, fn);
-        _swipe_event_init(elements,event_name,swipeEvent);
+        _swipe_event_init(elements, event_name, swipeEvent);
     }
 
-    function _swipe_event_init(elements,event_name,s_event) {
+    function _swipe_event_init(elements, event_name, s_event) {
         var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
 
         function get_direction() {
@@ -127,7 +127,6 @@ define([], function () {
         }
         for (i = 0; i < elements.length; i++) {
             elements[i].addEventListener('touchstart', function (e) {
-
                 var touch = e.touches[0];
                 startPosition = {
                     x: touch.pageX,
@@ -147,32 +146,38 @@ define([], function () {
             });
 
             elements[i].addEventListener('touchend', function (e) {
-                _onTouchEnd(event_name,deltaX,deltaY,s_event);
+                e.preventDefault();
+                _onTouchEnd(event_name, deltaX, deltaY, s_event);
             })
         }
     }
-    
-    function _onTouchEnd(event_name,deltaX,deltaY,s_event){
-        if (event === "swipe"){
+
+    function _onTouchEnd(event_name, deltaX, deltaY, s_event) {
+        if (event_name === "swipe") {
             s_event.fireEvent(event_name);
-        }else{
-            switch event{
-                case "swipeLeft":
-                    if (deltaX>0){
-                        s_event.fireEvent(event_name)
-                    };
-                case "swipeLeft":
-                    if (deltaX<0){
-                        s_event.fireEvent(event_name)
-                    };
-                case "swipeTop":
-                    if ((deltaX-deltaY)>0){
-                        s_event.fireEvent(event_name)
-                    };
-                case "swipeBottom":
-                    if ((deltaX-deltaY)<0){
-                        s_event.fireEvent(event_name)
-                    };
+        } else {
+
+            switch (event_name) {
+            case "swipeLeft":
+                if (deltaX < 0) {
+                    s_event.fireEvent(event_name)
+                };
+                break;
+            case "swipeRight":
+                if (deltaX > 0) {
+                    s_event.fireEvent(event_name)
+                };
+                break;
+            case "swipeTop":
+                if ((deltaX - deltaY) > 0) {
+                    s_event.fireEvent(event_name)
+                };
+                break;
+            case "swipeBottom":
+                if ((deltaX - deltaY) < 0) {
+                    s_event.fireEvent(event_name)
+                };
+                break;
             }
         }
     }

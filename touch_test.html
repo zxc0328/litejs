@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>litejs_test</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        p {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body class="target">
+    <p class="test1 test2">I am a paragraph.</p>
+    <p class="test1 test2">I am a paragraph.</p>
+    <p class="test1 test2">I am a paragraph.</p>
+    <p class="test1 test2" id="target">touchme!!</p>
+    <p class="test1 test2" id="message"></p>
+    <script src="js/require.js"></script>
+    <script>
+        requirejs(["js/lite"], function (l) {
+            var target = document.querySelectorAll(".target");
+            var message = document.querySelectorAll("#message");
+            l.swipe(target, "swipeTop", function () {
+                console.log("swipeTop!!!!!!!!! for real");
+            })
+        });
+    </script>
+</body>
+
+</html>

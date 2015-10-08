@@ -7,6 +7,16 @@ So Litejs will provide you with an amazing variety of Apis.
 
 ##Get started
 **requirejs**  
+just require litejs as a dependency.  
+
+```
+requirejs(["js/lite"], function (l) {
+            var target = document.querySelectorAll(".target");
+            l.swipe(target, "swipeTop", function () {
+                console.log("swipeTop!!!!");
+            })
+        });
+```
 ##Api reference  
 
 
@@ -15,13 +25,13 @@ So Litejs will provide you with an amazing variety of Apis.
 
 **addClass(element,className)**  
 
-element: node  
-className: string  
+element: Node  
+className: String  
 
 **removeClass(element,className)**  
 
-element: node  
-className: string  
+element: Node  
+className: String  
 
 **indexOf(parentNode,childNode)**  
   
@@ -32,7 +42,12 @@ childNode: Node
 ***
 ###Lite-touch(under devlopment)
 
-add touch event's  tbc
+**swipe(elements, event_name, callback)**  
+elements:NodeList  
+event_name:
+swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
+callback: Function
+
 ***
 ###Lite-ajax(under devlopment)
 

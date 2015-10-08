@@ -1,5 +1,8 @@
 requirejs(["lite"], function(l) {
-    var child = document.querySelector("#target"),
-        parent = document.querySelectorAll(".test1");
-    console.log(l.indexOf(parent,child));
+    var target = document.querySelectorAll(".target");
+    var message = document.querySelectorAll("#message");
+    l.swipe(target,"swipe",function(){
+        console.log("swipe");
+        message[0].innerHTML = "swipe!!!";
+    })
 });
