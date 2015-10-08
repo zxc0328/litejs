@@ -28,158 +28,94 @@ define([], function () {
     /***
     Litejs_event 
     ***/
-    var _Event = function () {
-        this._listener = {};
-    };
-
-    _Event.prototype = {
-        constructor: this,
-        addEvent: function (type, fn) {
-            if (typeof type === "string" && typeof fn === "function") {
-                if (typeof this._listener[type] === "undefined") {
-                    this._listener[type] = [fn];
-                } else {
-                    this._listener[type].push(fn);
-                }
-            }
-            return this;
-        },
-        addEvents: function (obj) {
-            obj = typeof obj === "object" ? obj : {};
-            var type;
-            for (type in obj) {
-                if (type && typeof obj[type] === "function") {
-                    this.addEvent(type, obj[type]);
-                }
-            }
-            return this;
-        },
-        fireEvent: function (type) {
-            if (type && this._listener[type]) {
-                var events = {
-                    type: type,
-                    target: this
-                };
-
-                for (var length = this._listener[type].length, start = 0; start < length; start += 1) {
-                    this._listener[type][start].call(this, events);
-                }
-            }
-            return this;
-        },
-        fireEvents: function (array) {
-            if (array instanceof Array) {
-                for (var i = 0, length = array.length; i < length; i += 1) {
-                    this.fireEvent(array[i]);
-                }
-            }
-            return this;
-        },
-        removeEvent: function (type, key) {
-            var listeners = this._listener[type];
-            if (listeners instanceof Array) {
-                if (typeof key === "function") {
-                    for (var i = 0, length = listeners.length; i < length; i += 1) {
-                        if (listeners[i] === key) {
-                            listeners.splice(i, 1);
-                            break;
-                        }
-                    }
-                } else if (key instanceof Array) {
-                    for (var lis = 0, lenkey = key.length; lis < lenkey; lis += 1) {
-                        this.removeEvent(type, key[lenkey]);
-                    }
-                } else {
-                    delete this._listener[type];
-                }
-            }
-            return this;
-        },
-        removeEvents: function (params) {
-            if (params instanceof Array) {
-                for (var i = 0, length = params.length; i < length; i += 1) {
-                    this.removeEvent(params[i]);
-                }
-            } else if (typeof params === "object") {
-                for (var type in params) {
-                    this.removeEvent(type, params[type]);
-                }
-            }
-            return this;
+    var addCusEventListener = function (elements, event_name, fn) {
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener(event_name, fn, false);
         }
     };
+    var removeCusEventListener = function (elements, event_name, fn) {
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].removeEventListener(event_name, fn, false);
+        }
+    };
+    var dispatchCusEvent = function (element, event_name) {
+        var event = new Event(event_name);
+        element.dispatchEvent(event);
+    };
+
 
     /***
     Litejs_touch v0.0.1
     ***/
 
     var swipe = function (elements, event_name, fn) {
-        var swipeEvent = new _Event();
-        swipeEvent.addEvent(event_name, fn);
-        _swipe_event_init(elements, event_name, swipeEvent);
-    }
-
-    function _swipe_event_init(elements, event_name, s_event) {
-        var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
-
-        function get_direction() {
-            direction = Math.abs(deltaY) - Math.abs(deltaX);
-        }
-        for (i = 0; i < elements.length; i++) {
-            elements[i].addEventListener('touchstart', function (e) {
-                var touch = e.touches[0];
-                startPosition = {
-                    x: touch.pageX,
-                    y: touch.pageY
-                }
-            });
-
-            elements[i].addEventListener('touchmove', function (e) {
-                e.preventDefault();
-                var touch = e.touches[0];
-                endPosition = {
-                    x: touch.pageX,
-                    y: touch.pageY
-                }
-                deltaX = endPosition.x - startPosition.x;
-                deltaY = endPosition.y - startPosition.y;
-            });
-
-            elements[i].addEventListener('touchend', function (e) {
-                e.preventDefault();
-                _onTouchEnd(event_name, deltaX, deltaY, s_event);
-            })
-        }
-    }
-
-    function _onTouchEnd(event_name, deltaX, deltaY, s_event) {
-        if (event_name === "swipe") {
-            s_event.fireEvent(event_name);
-        } else {
-
-            switch (event_name) {
-            case "swipeLeft":
-                if (deltaX < 0) {
-                    s_event.fireEvent(event_name)
-                };
-                break;
-            case "swipeRight":
-                if (deltaX > 0) {
-                    s_event.fireEvent(event_name)
-                };
-                break;
-            case "swipeTop":
-                if ((deltaX - deltaY) > 0) {
-                    s_event.fireEvent(event_name)
-                };
-                break;
-            case "swipeBottom":
-                if ((deltaX - deltaY) < 0) {
-                    s_event.fireEvent(event_name)
-                };
-                break;
+        var touchstart = function _onTouchstart(e) {
+            console.log("called!");
+            var touch = e.touches[0];
+            startPosition = {
+                x: touch.pageX,
+                y: touch.pageY
             }
         }
+        var touchmove = function _onTouchmove(e) {
+            e.preventDefault();
+            var touch = e.touches[0];
+            endPosition = {
+                x: touch.pageX,
+                y: touch.pageY
+            }
+            deltaX = endPosition.x - startPosition.x;
+            deltaY = endPosition.y - startPosition.y;
+        }
+        var touchend = function _onTouchend(e) {
+            e.preventDefault();
+            _onSwipeEnd(event_name, deltaX, deltaY, this);
+        }
+
+        function _swipe_event_init(elements, event_name) {
+            var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
+
+            for (i = 0; i < elements.length; i++) {
+                console.log("called!",touchstart);
+                elements[i].addEventListener('touchstart', touchstart);
+
+                elements[i].addEventListener('touchmove', touchmove);
+
+                elements[i].addEventListener('touchend', touchend)
+            }
+        }
+
+        function _onSwipeEnd(event_name, deltaX, deltaY, element) {
+            if (event_name === "swipe") {
+                dispatchCusEvent(element, event_name);
+            } else {
+
+                switch (event_name) {
+                case "swipeLeft":
+                    if (deltaX < 0) {
+                        dispatchCusEvent(element, event_name);
+                    };
+                    break;
+                case "swipeRight":
+                    if (deltaX > 0) {
+                        dispatchCusEvent(element, event_name);
+                    };
+                    break;
+                case "swipeTop":
+                    if ((deltaX - deltaY) > 0) {
+                        dispatchCusEvent(element, event_name);
+                    };
+                    break;
+                case "swipeBottom":
+                    if ((deltaX - deltaY) < 0) {
+                        dispatchCusEvent(element, event_name);
+                    };
+                    break;
+                }
+            }
+        }
+        addCusEventListener(elements, event_name, fn);
+        _swipe_event_init(elements, event_name);
     }
     return {
         addClass: addClass,

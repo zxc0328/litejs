@@ -2,11 +2,11 @@
 A light weight javascript library. Litejs aims the basic need of dom manipulation, network request, touch event support and so on in front-end development. It will be widely used in all the products of Muxistudio.
 
 ##Why Litejs
-jQuery and Zeptojs are pretty awesome. But now we are developing websites running in modern broswers, there is basicly no need to use jQuery's heavy dom apis. So we assume you are big fan of querySelector() apis and hope to develop something that have no need of supporting legacy IEs(IE7 and older).   
-So Litejs will provide you with an amazing variety of Apis.
+jQuery and Zeptojs are pretty awesome. But now we are developing websites running in modern broswers, there is basicly no need to use jQuery's heavy dom apis. So we assume you are big fan of querySelector() apis and hope to develop something that have no need of supporting legacy IEs(IE8 and older).   
+So Litejs will provide you with an amazing variety of Apis. And we also highly modularize the code so you can combine the modules you like without effort.
 
 ##Get started
-**requirejs**  
+**with requirejs**  
 just require litejs as a dependency.  
 
 ```
@@ -52,3 +52,7 @@ callback: Function
 ###Lite-ajax(under devlopment)
 
 add easy-to-use ajax method
+
+
+##Broswer Capacity
+IE9+ and other morden broswers
