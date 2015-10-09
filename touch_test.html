@@ -34,8 +34,8 @@
         requirejs(["js/lite"], function (l) {
             var target = document.querySelectorAll(".target");
             var message = document.querySelectorAll("#message");
-            l.addSwipe(target, "swipeLeft", function () {
-                console.log("swipeTop!!!!!!!!! for real");
+            l.addSwipe(target, "swipeLeft", function (e) {
+                console.log("swipeLeft "+e.detail.deltaX + "px!!");
             })
         });
     </script>

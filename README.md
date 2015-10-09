@@ -46,7 +46,9 @@ childNode: Node
 elements:NodeList  
 event_name:
 swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
-callback: Function
+callback(e): Function  
+e.detail.deltaX: the distance of the swipe in x axis  
+e.detail.deltaY: the distance of the swipe in y axis
 
 **removeSwipe(elements, event_name, callback)**  
 elements:NodeList  

@@ -38,8 +38,11 @@ define([], function () {
             elements[i].removeEventListener(event_name, fn, false);
         }
     };
-    var dispatchCusEvent = function (element, event_name) {
-        var event = new Event(event_name);
+    var dispatchCusEvent = function (element, event_name, detail) {
+        //var event = new Event(event_name);
+        var event = new CustomEvent(event_name, {
+            "detail": detail
+        });
         element.dispatchEvent(event);
     };
 
@@ -55,7 +58,7 @@ define([], function () {
             var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
 
             var touchstart = function _onTouchstart(e) {
- 
+
                 var touch = e.touches[0];
                 startPosition = {
                     x: touch.pageX,
@@ -101,29 +104,33 @@ define([], function () {
 
 
         function _onSwipeEnd(event_name, deltaX, deltaY, element) {
+            var detail = {
+                "deltaX": deltaX,
+                "deltaY": deltaY
+            }
             if (event_name === "swipe") {
-                dispatchCusEvent(element, event_name);
+                dispatchCusEvent(element, event_name, detail);
             } else {
 
                 switch (event_name) {
                 case "swipeLeft":
                     if (deltaX < 0) {
-                        dispatchCusEvent(element, event_name);
+                        dispatchCusEvent(element, event_name, detail);
                     };
                     break;
                 case "swipeRight":
                     if (deltaX > 0) {
-                        dispatchCusEvent(element, event_name);
+                        dispatchCusEvent(element, event_name, detail);
                     };
                     break;
                 case "swipeTop":
                     if ((deltaX - deltaY) > 0) {
-                        dispatchCusEvent(element, event_name);
+                        dispatchCusEvent(element, event_name, detail);
                     };
                     break;
                 case "swipeBottom":
                     if ((deltaX - deltaY) < 0) {
-                        dispatchCusEvent(element, event_name);
+                        dispatchCusEvent(element, event_name, detail);
                     };
                     break;
                 }
