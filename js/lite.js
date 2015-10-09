@@ -48,42 +48,57 @@ define([], function () {
     Litejs_touch v0.0.1
     ***/
 
-    var swipe = function (elements, event_name, fn) {
-        var touchstart = function _onTouchstart(e) {
-            console.log("called!");
-            var touch = e.touches[0];
-            startPosition = {
-                x: touch.pageX,
-                y: touch.pageY
-            }
-        }
-        var touchmove = function _onTouchmove(e) {
-            e.preventDefault();
-            var touch = e.touches[0];
-            endPosition = {
-                x: touch.pageX,
-                y: touch.pageY
-            }
-            deltaX = endPosition.x - startPosition.x;
-            deltaY = endPosition.y - startPosition.y;
-        }
-        var touchend = function _onTouchend(e) {
-            e.preventDefault();
-            _onSwipeEnd(event_name, deltaX, deltaY, this);
-        }
+    var swipe = (function () {
 
-        function _swipe_event_init(elements, event_name) {
+
+        function _swipe_event_handler(elements, event_name, flag) {
             var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
 
-            for (i = 0; i < elements.length; i++) {
-                console.log("called!",touchstart);
-                elements[i].addEventListener('touchstart', touchstart);
+            var touchstart = function _onTouchstart(e) {
+ 
+                var touch = e.touches[0];
+                startPosition = {
+                    x: touch.pageX,
+                    y: touch.pageY
+                }
+            }
+            var touchmove = function _onTouchmove(e) {
+                e.preventDefault();
+                var touch = e.touches[0];
+                endPosition = {
+                    x: touch.pageX,
+                    y: touch.pageY
+                }
+                deltaX = endPosition.x - startPosition.x;
+                deltaY = endPosition.y - startPosition.y;
+            }
+            var touchend = function _onTouchend(e) {
 
-                elements[i].addEventListener('touchmove', touchmove);
+                e.preventDefault();
+                _onSwipeEnd(event_name, deltaX, deltaY, this);
 
-                elements[i].addEventListener('touchend', touchend)
+            }
+            if (flag) {
+                for (i = 0; i < elements.length; i++) {
+
+                    elements[i].addEventListener('touchstart', touchstart);
+
+                    elements[i].addEventListener('touchmove', touchmove);
+
+                    elements[i].addEventListener('touchend', touchend)
+                }
+            } else {
+                for (i = 0; i < elements.length; i++) {
+
+                    elements[i].removeEventListener('touchstart', touchstart);
+
+                    elements[i].removeEventListener('touchmove', touchmove);
+
+                    elements[i].removeEventListener('touchend', touchend)
+                }
             }
         }
+
 
         function _onSwipeEnd(event_name, deltaX, deltaY, element) {
             if (event_name === "swipe") {
@@ -114,13 +129,28 @@ define([], function () {
                 }
             }
         }
-        addCusEventListener(elements, event_name, fn);
-        _swipe_event_init(elements, event_name);
-    }
+
+        function init(elements, event_name, fn) {
+            addCusEventListener(elements, event_name, fn);
+            _swipe_event_handler(elements, event_name, true);
+        }
+
+        function remove(elements, event_name, fn) {
+            removeCusEventListener(elements, event_name, fn);
+            _swipe_event_handler(elements, false);
+        }
+
+
+        return {
+            init: init,
+            remove: remove
+        }
+    })();
     return {
         addClass: addClass,
         removeClass: removeClass,
         indexOf: indexOf,
-        swipe: swipe
+        addSwipe: swipe.init,
+        removeSwipe: swipe.remove
     }
 })

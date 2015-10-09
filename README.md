@@ -42,7 +42,13 @@ childNode: Node
 ***
 ###Lite-touch(under devlopment)
 
-**swipe(elements, event_name, callback)**  
+**addSwipe(elements, event_name, callback)**  
+elements:NodeList  
+event_name:
+swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
+callback: Function
+
+**removeSwipe(elements, event_name, callback)**  
 elements:NodeList  
 event_name:
 swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
