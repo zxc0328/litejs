@@ -54,7 +54,7 @@ define([], function () {
     var swipe = (function () {
 
 
-        function _swipe_event_handler(elements, event_name, flag) {
+        function _swipe_event_handler(elements, event_name, flag, e_flag) {
             var startPosition, endPosition, deltaX, deltaY, moveLength, direction;
 
             var touchstart = function _onTouchstart(e) {
@@ -74,11 +74,16 @@ define([], function () {
                 }
                 deltaX = endPosition.x - startPosition.x;
                 deltaY = endPosition.y - startPosition.y;
+                if (!e_flag){
+                    _onSwipeEnd(event_name, deltaX, deltaY, this);
+                }
             }
             var touchend = function _onTouchend(e) {
 
                 e.preventDefault();
-                _onSwipeEnd(event_name, deltaX, deltaY, this);
+                if (e_flag){
+                    _onSwipeEnd(event_name, deltaX, deltaY, this);
+                }
 
             }
             if (flag) {
@@ -137,9 +142,9 @@ define([], function () {
             }
         }
 
-        function init(elements, event_name, fn) {
+        function init(elements, event_name, fn,flag) {
             addCusEventListener(elements, event_name, fn);
-            _swipe_event_handler(elements, event_name, true);
+            _swipe_event_handler(elements, event_name, true,flag);
         }
 
         function remove(elements, event_name, fn) {
