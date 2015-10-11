@@ -42,11 +42,15 @@ childNode: Node
 ***
 ###Lite-touch(under devlopment)
 
-**addSwipe(elements, event_name, callback)**  
+**addSwipe(elements, event_name, callback, flag)**  
 elements:NodeList  
 event_name:
 swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
 callback(e): Function  
+flag : Boolean  
+
+flag : *true to trigger swipe event once fingers stop, false to trigger swipe event whenever fingers moves*   
+ 
 e.detail.deltaX: the distance of the swipe in x axis  
 e.detail.deltaY: the distance of the swipe in y axis
 
