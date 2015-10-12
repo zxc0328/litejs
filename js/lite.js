@@ -74,14 +74,14 @@ define([], function () {
                 }
                 deltaX = endPosition.x - startPosition.x;
                 deltaY = endPosition.y - startPosition.y;
-                if (!e_flag){
+                if (!e_flag) {
                     _onSwipeEnd(event_name, deltaX, deltaY, this);
                 }
             }
             var touchend = function _onTouchend(e) {
 
                 e.preventDefault();
-                if (e_flag){
+                if (e_flag) {
                     _onSwipeEnd(event_name, deltaX, deltaY, this);
                 }
 
@@ -142,9 +142,9 @@ define([], function () {
             }
         }
 
-        function init(elements, event_name, fn,flag) {
+        function init(elements, event_name, fn, flag) {
             addCusEventListener(elements, event_name, fn);
-            _swipe_event_handler(elements, event_name, true,flag);
+            _swipe_event_handler(elements, event_name, true, flag);
         }
 
         function remove(elements, event_name, fn) {
@@ -158,11 +158,40 @@ define([], function () {
             remove: remove
         }
     })();
+
+    /***
+    Litejs_ajax
+    ***/
+
+    var ajax = function (obj) {
+        var xhr;
+        xhr = new XMLHttpRequest;
+        xhr.onreadystatechange() = function(){
+            if (xhr.readyState == 4){
+                if((xhr.status >= 200 && xhr.status <300) || xhr.status == 304){
+                    xhr.success();
+                }else{
+                    if (xhr.error){
+                        xhr.error();
+                    }
+                }
+            }
+        };
+        xhr.open(obj.type, obj.url, obj.isAsync);
+        if (xhr.data) {
+            xhr.send(null);
+        } else {
+            xhr.send(xhr.data)
+        }
+
+    }
+
     return {
         addClass: addClass,
         removeClass: removeClass,
         indexOf: indexOf,
         addSwipe: swipe.init,
-        removeSwipe: swipe.remove
+        removeSwipe: swipe.remove,
+        ajax : ajax
     }
 })

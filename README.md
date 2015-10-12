@@ -63,7 +63,16 @@ callback: Function
 ***
 ###Lite-ajax(under devlopment)
 
-add easy-to-use ajax method
+**ajax*(settings)**  
+settings : obj  
+
+type : String  
+url : String   
+isAsync : Boolean  
+data : String|Obj|Num  
+success : Function  
+error : Function
+
 
 
 ##Broswer Capacity
