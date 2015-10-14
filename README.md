@@ -124,3 +124,12 @@ require(["../lite"], function (l) {
 
 ##Broswer Capacity
 IE9+ and other morden broswers
+
+##Release 
+
+###v0.2 
+--2015.10.14
+
+##License
+
+MI
