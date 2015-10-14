@@ -166,18 +166,20 @@ define([], function () {
     var ajax = function (obj) {
         var xhr,setOption;
         setOption = function(obj){
+            obj.type = obj.type || "GET";
             obj.isAsync = obj.isAsync || true;
             return obj;
          }
         obj = setOption(obj);
         xhr = new XMLHttpRequest;
-        xhr.onreadystatechange() = function(){
+        xhr.onreadystatechange = function(){
             if (xhr.readyState == 4){
                 if((xhr.status >= 200 && xhr.status <300) || xhr.status == 304){
-                    xhr.success();
+                    var data = xhr.responseText || xhr.responseXML;
+                    obj.success(data, xhr.status);
                 }else{
-                    if (xhr.error){
-                        xhr.error();
+                    if (obj.error){
+                        obj.error(xhr.status);
                     }
                 }
             }
@@ -188,6 +190,7 @@ define([], function () {
         } else {
             xhr.send(xhr.data)
         }
+        return xhr;
     }
 
     return {

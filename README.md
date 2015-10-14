@@ -104,6 +104,23 @@ url : String
 isAsync : optional, default value true       
 
 
+*Usage*
+
+
+```
+require(["../lite"], function (l) {
+            l.ajax({
+                url: "data.txt",
+                type: "GET",
+                success: function (data) {
+                    var target = document.querySelector(".target");
+                    target.innerHTML = data;
+                }
+            })
+        })
+```
+
+
 
 ##Broswer Capacity
 IE9+ and other morden broswers
