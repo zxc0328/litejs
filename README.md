@@ -6,11 +6,18 @@ jQuery and Zeptojs are pretty awesome. But now we are developing websites runnin
 So Litejs will provide you with an amazing variety of Apis. And we also highly modularize the code so you can combine the modules you like without effort.
 
 ##Get started
-**with requirejs**  
+**Install litejs with bower**   
+
+```
+bower install litejs --save-dev  
+```   
+
+**Using litejs with requirejs**  
+ 
 just require litejs as a dependency.  
 
 ```
-requirejs(["js/lite"], function (l) {
+requirejs(["bower_components/litejs/lite"], function (l) {
             var target = document.querySelectorAll(".target");
             l.swipe(target, "swipeTop", function () {
                 console.log("swipeTop!!!!");
@@ -25,10 +32,14 @@ requirejs(["js/lite"], function (l) {
 
 **addClass(element,className)**  
 
+*Paramaters:*  
+
 element: Node  
 className: String  
 
 **removeClass(element,className)**  
+
+*Paramaters:*  
 
 element: Node  
 className: String  
@@ -37,24 +48,34 @@ className: String
   
 *return a node's index in a nodelist*  
 
+*Paramaters:*  
+
 parentNode: NodeList  
 childNode: Node
 ***
 ###Lite-touch(under devlopment)
 
 **addSwipe(elements, event_name, callback, flag)**  
+  
+*Paramaters:*  
+ 
 elements:NodeList  
 event_name:
 swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
 callback(e): Function  
 flag : Boolean  
 
+*Detail*  
+
 flag : *true to trigger swipe event once fingers stop, false to trigger swipe event whenever fingers moves*   
  
 e.detail.deltaX: the distance of the swipe in x axis  
 e.detail.deltaY: the distance of the swipe in y axis
 
-**removeSwipe(elements, event_name, callback)**  
+**removeSwipe(elements, event_name, callback)**
+  
+*Paramaters:* 
+ 
 elements:NodeList  
 event_name:
 swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
@@ -63,15 +84,24 @@ callback: Function
 ***
 ###Lite-ajax(under devlopment)
 
-**ajax*(settings)**  
-settings : obj  
+**ajax(settings)** 
 
+*Paramaters:* 
+ 
+settings : Object 
+ 
 type : String  
 url : String   
-isAsync : Boolean  
+isAsync : Boolean     
 data : String|Obj|Num  
 success : Function  
 error : Function
+
+*Detail*  
+
+type : the type of the request, eg:"GET","POST"   
+url : String   
+isAsync : optional, default value true       
 
 
 

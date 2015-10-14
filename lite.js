@@ -164,7 +164,12 @@ define([], function () {
     ***/
 
     var ajax = function (obj) {
-        var xhr;
+        var xhr,setOption;
+        setOption = function(obj){
+            obj.isAsync = obj.isAsync || true;
+            return obj;
+         }
+        obj = setOption(obj);
         xhr = new XMLHttpRequest;
         xhr.onreadystatechange() = function(){
             if (xhr.readyState == 4){
@@ -183,7 +188,6 @@ define([], function () {
         } else {
             xhr.send(xhr.data)
         }
-
     }
 
     return {
