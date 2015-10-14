@@ -1,0 +1,21 @@
+{
+  "name": "litejs",
+  "version": "0.1",
+  "homepage": "https://github.com/zxc0328/litejs",
+  "authors": [
+    "ccnuzindex@gmail.com"
+  ],
+  "description": "A light weight javascript library",
+  "main": "lite.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "requirejs": "~2.1.20"
+  }
+}
