@@ -95,7 +95,8 @@ url : String
 isAsync : Boolean     
 data : String|Obj|Num  
 success : Function  
-error : Function
+error : Function  
+headers : obj
 
 *Detail*  
 
@@ -112,9 +113,16 @@ require(["../lite"], function (l) {
             l.ajax({
                 url: "data.txt",
                 type: "GET",
+                isAsync : "false",
                 success: function (data) {
                     var target = document.querySelector(".target");
                     target.innerHTML = data;
+                },
+                error : function(status){
+                		console.log("error: " + status);
+                }
+                headers : {
+                	"Authorization" :"Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=="
                 }
             })
         })
@@ -132,4 +140,4 @@ IE9+ and other morden broswers
 
 ##License
 
-MI
+MIT
