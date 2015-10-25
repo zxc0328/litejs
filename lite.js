@@ -1,44 +1,61 @@
-define([], function () {
+define([], function() {
     /***
-    Litejs_dom v0.0.1
+    Litejs_core 
     ***/
-    var _hasClass = function (elem, className) {
+    var _dataTypeOf = function(data) {
+        return Object.prototype.toString.call(data).slice(8, -1);
+    }
+    var _hasClass = function(elem, className) {
         return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
     }
 
-    var addClass = function (elem, className) {
-        if (!_hasClass(elem, className)) {
-            elem.className += ' ' + className;
+    var addClass = function(elem, classNameArray) {
+        if (_dataTypeOf(classNameArray) !== "Array") {
+            throw new TypeError("The classname should be an array instead of " +
+                _dataTypeOf(classNameArray))
         }
+        for (var i = 0; i < classNameArray.length; i++) {
+            if (!_hasClass(elem, classNameArray[i])) {
+                elem.className += ' ' + classNameArray[i];
+            }
+        }
+
     }
 
-    var removeClass = function (elem, className) {
-        var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
-        if (_hasClass(elem, className)) {
-            while (newClass.indexOf(' ' + className + ' ') >= 0) {
-                newClass = newClass.replace(' ' + className + ' ', ' ');
-            }
-            elem.className = newClass.replace(/^\s+|\s+$/g, '');
+    var removeClass = function(elem, classNameArray) {
+        if (_dataTypeOf(classNameArray) !== "Array") {
+            throw new TypeError("The classname should be an array instead of " +
+                _dataTypeOf(classNameArray))
         }
+        for (var i = 0; i < classNameArray.length; i++) {
+            var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
+            if (_hasClass(elem, classNameArray[i])) {
+                while (newClass.indexOf(' ' + classNameArray[i] + ' ') >= 0) {
+                    newClass = newClass.replace(' ' + classNameArray[i] + ' ', ' ');
+                }
+                elem.className = newClass.replace(/^\s+|\s+$/g, '');
+            }
+        }
+
     }
-    var indexOf = function (parent, child) {
-        return Array.prototype.indexOf.call(parent, child);
+    var indexOf = function(parentNode, childNode) {
+        return Array.prototype.indexOf.call(parentNode, childNode);
     }
 
     /***
     Litejs_event 
     ***/
-    var addCusEventListener = function (elements, event_name, fn) {
+    var addCusEventListener = function(elements, event_name, fn) {
         for (var i = 0; i < elements.length; i++) {
             elements[i].addEventListener(event_name, fn, false);
         }
     };
-    var removeCusEventListener = function (elements, event_name, fn) {
+    var removeCusEventListener = function(elements, event_name, fn) {
         for (var i = 0; i < elements.length; i++) {
             elements[i].removeEventListener(event_name, fn, false);
         }
     };
-    var dispatchCusEvent = function (element, event_name, detail) {
+    var dispatchCusEvent = function(element, event_name, detail) {
         //var event = new Event(event_name);
         var event = new CustomEvent(event_name, {
             "detail": detail
@@ -51,7 +68,7 @@ define([], function () {
     Litejs_touch v0.0.1
     ***/
 
-    var swipe = (function () {
+    var swipe = (function() {
 
 
         function _swipe_event_handler(elements, event_name, flag, e_flag) {
@@ -118,26 +135,26 @@ define([], function () {
             } else {
 
                 switch (event_name) {
-                case "swipeLeft":
-                    if (deltaX < 0) {
-                        dispatchCusEvent(element, event_name, detail);
-                    };
-                    break;
-                case "swipeRight":
-                    if (deltaX > 0) {
-                        dispatchCusEvent(element, event_name, detail);
-                    };
-                    break;
-                case "swipeTop":
-                    if ((deltaX - deltaY) > 0) {
-                        dispatchCusEvent(element, event_name, detail);
-                    };
-                    break;
-                case "swipeBottom":
-                    if ((deltaX - deltaY) < 0) {
-                        dispatchCusEvent(element, event_name, detail);
-                    };
-                    break;
+                    case "swipeLeft":
+                        if (deltaX < 0) {
+                            dispatchCusEvent(element, event_name, detail);
+                        };
+                        break;
+                    case "swipeRight":
+                        if (deltaX > 0) {
+                            dispatchCusEvent(element, event_name, detail);
+                        };
+                        break;
+                    case "swipeTop":
+                        if ((deltaX - deltaY) > 0) {
+                            dispatchCusEvent(element, event_name, detail);
+                        };
+                        break;
+                    case "swipeBottom":
+                        if ((deltaX - deltaY) < 0) {
+                            dispatchCusEvent(element, event_name, detail);
+                        };
+                        break;
                 }
             }
         }
@@ -163,30 +180,30 @@ define([], function () {
     Litejs_ajax
     ***/
 
-    var ajax = function (obj) {
-        var xhr,setOption,beforeSend;
-        setOption = function(obj){
+    var ajax = function(obj) {
+        var xhr, setOption, beforeSend;
+        setOption = function(obj) {
             obj.type = obj.type || "GET";
             obj.isAsync = obj.isAsync || true;
             return obj;
-         }
-        beforeSend = function(obj){
-            for (header in obj.headers){
-                xhr.setRequestHeader(header,obj.headers[header]);
+        }
+        beforeSend = function(obj) {
+            for (header in obj.headers) {
+                xhr.setRequestHeader(header, obj.headers[header]);
             }
         }
         obj = setOption(obj);
         xhr = new XMLHttpRequest;
-        if (obj.headers){
+        if (obj.headers) {
             beforeSend(obj);
         }
-        xhr.onreadystatechange = function(){
-            if (xhr.readyState == 4){
-                if((xhr.status >= 200 && xhr.status <300) || xhr.status == 304){
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
                     var data = xhr.responseText || xhr.responseXML;
                     obj.success(data, xhr.status);
-                }else{
-                    if (obj.error){
+                } else {
+                    if (obj.error) {
                         obj.error(xhr.status);
                     }
                 }
@@ -207,6 +224,6 @@ define([], function () {
         indexOf: indexOf,
         addSwipe: swipe.init,
         removeSwipe: swipe.remove,
-        ajax : ajax
+        ajax: ajax
     }
 })
