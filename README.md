@@ -35,14 +35,14 @@ requirejs(["bower_components/litejs/lite"], function (l) {
 *Paramaters:*  
 
 element: Node  
-className: String  
+className: Array
 
 **removeClass(element,className)**  
 
 *Paramaters:*  
 
 element: Node  
-className: String  
+className: Array
 
 **indexOf(parentNode,childNode)**  
   

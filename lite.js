@@ -1,4 +1,5 @@
 define([], function() {
+    'use strict'
     /***
     Litejs_core 
     ***/
@@ -42,8 +43,53 @@ define([], function() {
         return Array.prototype.indexOf.call(parentNode, childNode);
     }
 
+
+
     /***
-    Litejs_event 
+    Litejs_class_factory
+    ***/
+
+    function extendsClass(parent, child) {
+
+        var callSuper = parent.prototype;
+        var newChild = function() {
+
+            parent.call(this);
+            child.call(this);
+        }
+        newChild.prototype = Object.create(parent.prototype, {
+            constructor: {
+                configurable: true,
+                enumberable: true,
+                value: newChild,
+                writable: true
+            },
+            super: {
+                configurable: true,
+                enumberable: true,
+                value: callSuper,
+                writable: true
+            }
+        })
+
+        newChild.callSuper = newChild.prototype.super
+
+        return newChild;
+    }
+
+
+    /***
+    Litejs_UI_component
+    ***/
+
+    //constructor for liteUI component base class
+    function liteComponent() {
+
+    }
+
+
+    /***
+    Litejs_cus_event 
     ***/
     var addCusEventListener = function(elements, event_name, fn) {
         for (var i = 0; i < elements.length; i++) {
