@@ -77,6 +77,13 @@ define([], function() {
         return newChild;
     }
 
+    function mixin(sourceObj, targetObj){
+        for (var key in sourceObj){
+            if(!(key in targetObj)){
+                targetObj[key] = sourceObj[key]; 
+            }
+        }
+    }
 
     /***
     Litejs_UI_component
@@ -84,7 +91,10 @@ define([], function() {
 
     //constructor for liteUI component base class
     function liteComponent() {
-
+        this.defaults = {};
+        this.prototype.init = function(options){
+            this.options = mixin(this.defaults,this.options);
+        }
     }
 
 
