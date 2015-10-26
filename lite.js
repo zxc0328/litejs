@@ -1,7 +1,7 @@
 define([], function() {
     'use strict'
     /***
-    Litejs_core 
+    Litejs_core_utility 
     ***/
     var _dataTypeOf = function(data) {
         return Object.prototype.toString.call(data).slice(8, -1);
@@ -9,41 +9,67 @@ define([], function() {
     var _hasClass = function(elem, className) {
         return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
     }
-
-    var addClass = function(elem, classNameArray) {
-        if (_dataTypeOf(classNameArray) !== "Array") {
-            throw new TypeError("The classname should be an array instead of " +
-                _dataTypeOf(classNameArray))
-        }
-        for (var i = 0; i < classNameArray.length; i++) {
-            if (!_hasClass(elem, classNameArray[i])) {
-                elem.className += ' ' + classNameArray[i];
+    var _mixin = function(sourceObj, targetObj) {
+        for (var key in sourceObj) {
+            if (!(key in targetObj)) {
+                targetObj[key] = sourceObj[key];
             }
         }
-
     }
 
-    var removeClass = function(elem, classNameArray) {
-        if (_dataTypeOf(classNameArray) !== "Array") {
-            throw new TypeError("The classname should be an array instead of " +
-                _dataTypeOf(classNameArray))
-        }
-        for (var i = 0; i < classNameArray.length; i++) {
-            var newClass = ' ' + elem.className.replace(/[\t\r\n]/g, ' ') + ' ';
-            if (_hasClass(elem, classNameArray[i])) {
-                while (newClass.indexOf(' ' + classNameArray[i] + ' ') >= 0) {
-                    newClass = newClass.replace(' ' + classNameArray[i] + ' ', ' ');
+    /***
+    lite_core_selector
+    ***/
+
+    var l = function(selector) {
+        return new _l(selector);
+    }
+
+    var _l = function(s) {
+        this.elements = document.querySelectorAll(s);
+    }
+
+    /***
+    lite-core-dom
+    ***/
+    _l.prototype.addClass = function(classNameArray) {
+        el = this.elements;
+        for (var i = 0; i < el.length; i++) {
+            if (_dataTypeOf(classNameArray) !== "Array") {
+                throw new TypeError("The classname should be an array instead of " +
+                    _dataTypeOf(classNameArray))
+            }
+            for (var j = 0; j < classNameArray.length; j++) {
+                if (!_hasClass(el[i], classNameArray[j])) {
+                    el[i].className += ' ' + classNameArray[j];
                 }
-                elem.className = newClass.replace(/^\s+|\s+$/g, '');
+            }
+        }
+    }
+
+    _l.prototype.removeClass = function(classNameArray) {
+        el = this.elements;
+        for (var i = 0; i < el.length; i++) {
+            if (_dataTypeOf(classNameArray) !== "Array") {
+                throw new TypeError("The classname should be an array instead of " +
+                    _dataTypeOf(classNameArray))
+            }
+            for (var j = 0; j < classNameArray.length; j++) {
+                var newClass = ' ' + el[i].className.replace(/[\t\r\n]/g, ' ') + ' ';
+                if (_hasClass(elem, classNameArray[j])) {
+                    while (newClass.indexOf(' ' + classNameArray[j] + ' ') >= 0) {
+                        newClass = newClass.replace(' ' + classNameArray[j] + ' ', ' ');
+                    }
+                    el[i].className = newClass.replace(/^\s+|\s+$/g, '');
+                }
             }
         }
 
     }
-    var indexOf = function(parentNode, childNode) {
-        return Array.prototype.indexOf.call(parentNode, childNode);
+
+    _l.prototype.indexOf = function(parentNode) {
+        return Array.prototype.indexOf.call(parentNode, this.elements[0]);
     }
-
-
 
     /***
     Litejs_class_factory
@@ -77,13 +103,7 @@ define([], function() {
         return newChild;
     }
 
-    function mixin(sourceObj, targetObj){
-        for (var key in sourceObj){
-            if(!(key in targetObj)){
-                targetObj[key] = sourceObj[key]; 
-            }
-        }
-    }
+
 
     /***
     Litejs_UI_component
@@ -92,8 +112,8 @@ define([], function() {
     //constructor for liteUI component base class
     function liteComponent() {
         this.defaults = {};
-        this.prototype.init = function(options){
-            this.options = mixin(this.defaults,this.options);
+        this.prototype.init = function(options) {
+            this.options = mixin(this.defaults, this.options);
         }
     }
 
@@ -274,12 +294,7 @@ define([], function() {
         return xhr;
     }
 
-    return {
-        addClass: addClass,
-        removeClass: removeClass,
-        indexOf: indexOf,
-        addSwipe: swipe.init,
-        removeSwipe: swipe.remove,
-        ajax: ajax
-    }
+    l.ajax = ajax;
+
+    return l;
 })
