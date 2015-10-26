@@ -1,6 +1,6 @@
 define([], function() {
     /***
-    Litejs_core 
+    Litejs_core_utility 
     ***/
     var _dataTypeOf = function(data) {
         return Object.prototype.toString.call(data).slice(8, -1);
@@ -41,6 +41,35 @@ define([], function() {
     var indexOf = function(parentNode, childNode) {
         return Array.prototype.indexOf.call(parentNode, childNode);
     }
+
+    /***
+    lite-selector
+    ***/
+
+
+    var l = function(selector) {
+        return new _l(selector);
+    }
+
+    var _l = function(s) {
+        this.elements = document.querySelectorAll(s);
+    }
+
+    _l.prototype.addClass = function(classNameArray) {
+        el = this.elements;
+        for (var i = 0; i < el.length; i++) {
+            if (_dataTypeOf(classNameArray) !== "Array") {
+                throw new TypeError("The classname should be an array instead of " +
+                    _dataTypeOf(classNameArray))
+            }
+            for (var j = 0; j < classNameArray.length; j++) {
+                if (!_hasClass(el[i], classNameArray[j])) {
+                    el[i].className += ' ' + classNameArray[j];
+                }
+            }
+        }
+    }
+
 
     /***
     Litejs_event 
@@ -177,7 +206,7 @@ define([], function() {
     })();
 
     /***
-    Litejs_ajax
+    Litejs_core_ajax
     ***/
 
     var ajax = function(obj) {
@@ -218,6 +247,10 @@ define([], function() {
         return xhr;
     }
 
+    l.ajax = ajax;
+    
+    return l;
+    /***
     return {
         addClass: addClass,
         removeClass: removeClass,
@@ -226,4 +259,5 @@ define([], function() {
         removeSwipe: swipe.remove,
         ajax: ajax
     }
+    ***/
 })
