@@ -1,2 +1,5 @@
 bower_components
 *.html
+dest
+test
+
