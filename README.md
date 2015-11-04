@@ -1,9 +1,9 @@
-# Litejs is great
-A light weight javascript library. Litejs aims the basic need of dom manipulation, network request, touch event support and so on in front-end development. It will be widely used in all the products of Muxistudio.
+# Litejs 
+A light weight javascript library. Litejs aims the basic need of dom manipulation, evnet system, network request, touch event support and so on in front-end development. It will be widely used in all the products of Muxistudio.
 
 ##Why Litejs
-jQuery and Zeptojs are pretty awesome. But now we are developing websites running in modern broswers, there is basicly no need to use jQuery's heavy dom apis. So we assume you are big fan of querySelector() apis and hope to develop something that have no need of supporting legacy IEs(IE8 and older).   
-So Litejs will provide you with an amazing variety of Apis. And we also highly modularize the code so you can combine the modules you like without effort.
+jQuery and Zeptojs are pretty awesome. But now we are developing websites running in modern broswers, there is basicly no need to use jQuery's heavy dom apis. So we assume you are big fan of querySelector() apis and hope to develop something that have no need of supporting legacy IEs(IE7 and older).   
+So Litejs will provide you with an amazing variety of Apis. And we also highly modularize the code so you can combine the modules you like together without effort.
 
 ##Get started
 **Install litejs with bower**   
@@ -18,43 +18,67 @@ just require litejs as a dependency.
 
 ```
 requirejs(["bower_components/litejs/lite"], function (l) {
-            var target = document.querySelectorAll(".target");
+            var target = l(".target");
             l.swipe(target, "swipeTop", function () {
                 console.log("swipeTop!!!!");
             })
-        });
+});
 ```
 ##Api reference  
 
+###Selector in Litejs
+*description:*  
 
-###Lite-dom(under devlopment)
+Select the nodes according to the given CSS sytle selectors 
+
+*Syntax:*
+
+`var target = l(".target");`
+
+*Return:*  
+
+`[Object lite_nodeList]`
+
+****
+###Dom manipulation
+
+####**addClass**  
+*description:*  
+
+Add the given classname to the node's class attribute.
+
+*Syntax:*
+
+`l.addClass([Array ClassName]);`
 
 
-**addClass(element,className)**  
+****
+####**removeClass**  
+*description:*  
 
-*Paramaters:*  
+Remove the given classname to the node's class attribute.
 
-element: Node  
-className: Array
+*Syntax:*
 
-**removeClass(element,className)**  
+`l.removeClass([Array ClassName]);`
 
-*Paramaters:*  
-
-element: Node  
-className: Array
-
-**indexOf(parentNode,childNode)**  
+****
+####**indexOf**  
   
-*return a node's index in a nodelist*  
+*description:*  
 
-*Paramaters:*  
+Return a node's index in a nodelist.
 
-parentNode: NodeList  
-childNode: Node
+*Syntax:*
+
+`l.indexOf([NodeList ParentNode]);`
+
+*Return:*  
+
+`[Number index]`
+
 ***
-###Lite-touch(under devlopment)
-
+###Swipe Event
 **addSwipe(elements, event_name, callback, flag)**  
   
 *Paramaters:*  
@@ -71,7 +95,7 @@ flag : *true to trigger swipe event once fingers stop, false to trigger swipe ev
  
 e.detail.deltaX: the distance of the swipe in x axis  
 e.detail.deltaY: the distance of the swipe in y axis
-
+***
 **removeSwipe(elements, event_name, callback)**
   
 *Paramaters:* 
@@ -82,9 +106,15 @@ swipe,swipeLeft,swipeRight,swipeTop,swipeBottom
 callback: Function
 
 ***
-###Lite-ajax(under devlopment)
+###Lite-ajax
 
-**ajax(settings)** 
+####**ajax** 
+
+*Syntax:* 
+
+```
+l.ajax([Object settings])
+```
 
 *Paramaters:* 
  
@@ -105,7 +135,7 @@ url : String
 isAsync : optional, default value true       
 
 
-*Usage*
+*Basic Usage*
 
 
 ```
@@ -131,10 +161,12 @@ require(["../lite"], function (l) {
 
 
 ##Broswer Capacity
-IE9+ and other morden broswers
+IE8+ and other morden broswers
 
 ##Release 
 
+###v1.0
+--2015.11
 ###v0.2 
 --2015.10.14
 
