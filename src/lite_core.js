@@ -390,15 +390,12 @@ define([], function() {
             return obj;
         }
         beforeSend = function(obj) {
-            for (header in obj.headers) {
+            for (var header in obj.headers) {
                 xhr.setRequestHeader(header, obj.headers[header]);
             }
         }
         obj = setOption(obj);
         xhr = new XMLHttpRequest;
-        if (obj.headers) {
-            beforeSend(obj);
-        }
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
@@ -412,6 +409,9 @@ define([], function() {
             }
         };
         xhr.open(obj.type, obj.url, obj.isAsync);
+        if (obj.headers) {
+            beforeSend(obj);
+        }
         if (xhr.data) {
             xhr.send(null);
         } else {

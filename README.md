@@ -79,34 +79,36 @@ Return a node's index in a nodelist.
 
 ***
 ###Swipe Event
-**addSwipe(elements, event_name, callback, flag)**  
+**addSwipe**  
   
-*Paramaters:*  
- 
-elements:NodeList  
-event_name:
-swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
-callback(e): Function  
-flag : Boolean  
+*Syntax:*
+
+`l.addSwipe([String event_name], [Function callback], [Boolean flag])`
+
 
 *Detail*  
 
 flag : *true to trigger swipe event once fingers stop, false to trigger swipe event whenever fingers moves*   
- 
-e.detail.deltaX: the distance of the swipe in x axis  
-e.detail.deltaY: the distance of the swipe in y axis
-***
-**removeSwipe(elements, event_name, callback)**
-  
-*Paramaters:* 
- 
-elements:NodeList  
-event_name:
-swipe,swipeLeft,swipeRight,swipeTop,swipeBottom  
-callback: Function
+
+event_name: *swipe,swipeLeft,swipeRight,swipeTop,swipeBottom* 
+
+e.detail.deltaX: *the distance of the swipe in x axis*  
+e.detail.deltaY: *the distance of the swipe in y axis*
 
 ***
-###Lite-ajax
+**removeSwipe**
+
+*Syntax:*
+
+`l.removeSwipe([String event_name], [Function callback])`
+
+*Detail*  
+
+event_name: *swipe,swipeLeft,swipeRight,swipeTop,swipeBottom* 
+
+
+***
+###Ajax
 
 ####**ajax** 
 
@@ -117,22 +119,24 @@ l.ajax([Object settings])
 ```
 
 *Paramaters:* 
+
+```
+[Object settings]
  
-settings : Object 
- 
-type : String  
-url : String   
-isAsync : Boolean     
-data : String|Obj|Num  
-success : Function  
-error : Function  
-headers : obj
+[String type] 
+[String url]   
+[Boolean isAsync]     
+[String|Obj|Num data]  
+[Function success]  
+[Function error]  
+[Object headers]
+```
 
 *Detail*  
 
-type : the type of the request, eg:"GET","POST"   
-url : String   
-isAsync : optional, default value true       
+type : the type of the request, eg:"GET","POST".   
+isAsync : optional, default value true.       
+headers : the key-value object of the header settings.
 
 
 *Basic Usage*
