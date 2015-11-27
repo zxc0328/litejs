@@ -1,4 +1,6 @@
-# Litejs 
+![# Litejs ](http://7oxh2b.com1.z0.glb.clouddn.com/litejs-logo2.png)
+
+
 A light weight javascript library. Litejs aims the basic need of dom manipulation, evnet system, network request, touch event support and so on in front-end development. It will be widely used in all the products of Muxistudio.
 
 ##Why Litejs
