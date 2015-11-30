@@ -1,4 +1,5 @@
-define([], function() {
+;
+(function() {
     'use strict'
 
     /***
@@ -246,10 +247,13 @@ define([], function() {
             }
         };
 
-        var addEvent = function(elem, type, fn) {
+        var addEvent = function(elem, type, target, fn) {
 
             var data = getData(elem);
-
+            var fn = fn || arguments[arguments.length-1];
+            if(target.elements){
+                target = target.elements[0];
+            }
             if (!data.handlers) data.handlers = {};
 
             if (!data.handlers[type])
@@ -267,7 +271,7 @@ define([], function() {
                     event = _fixEvent(event);
 
                     var handlers = data.handlers[event.type];
-                    if (handlers) {
+                    if (handlers && (event.target === target )) {
                         for (var n = 0; n < handlers.length; n++) {
                             handlers[n].call(elem, event);
                         }
@@ -365,10 +369,10 @@ define([], function() {
 
     //register event apis on _l object
 
-    _l.prototype.addEvent = function(type, fn) {
+    _l.prototype.addEvent = function(type, target, fn) {
         var el = this.elements;
         for (var i = 0; i < el.length; i++) {
-            _event.addEvent(el[i], type, fn);
+            _event.addEvent(el[i], type, target, fn);
         }
     }
     _l.prototype.removeEvent = function(type, fn) {
@@ -422,5 +426,16 @@ define([], function() {
 
     l.ajax = ajax;
 
-    return l;
-})
+
+    if (typeof module !== 'undefined' && typeof exports === 'object') {
+        module.exports = l;
+    } else if (typeof define === 'function' && (define.amd || define.cmd)) {
+        define(function() {
+            return l;
+        });
+    } else {
+        this.l = l;
+    }
+}).call(function() {
+    return this || (typeof window !== 'undefined' ? window : global);
+});
