@@ -2,39 +2,87 @@
 (function() {
     'use strict'
 
-    /***
-    Litejs_core_utility 
-    ***/
+    /**
+    *lite_core_utility 
+    *
+    *Utility fuctions for other core functionalities
+    **/
+
+    /**
+     * [_dataTypeOf 
+     * return the datatype of the given data using Object.prototype.toString.call()]
+     * @param  data 
+     * @return {[string]}  [datatype]
+     */
     var _dataTypeOf = function(data) {
         return Object.prototype.toString.call(data).slice(8, -1);
     }
+
+    /**
+     * [_hasClass
+     * use RegExp to see if the given classname is in the element's classnames]
+     * @param  {[dom node]}  elem     
+     * @param  {[string]}  className 
+     * @return {Boolean}           
+     */
     var _hasClass = function(elem, className) {
         return new RegExp(' ' + className + ' ').test(' ' + elem.className + ' ');
     }
+
+    /**
+     * [_mixin]
+     * @param  {[obj]} sourceObj 
+     * @param  {[obj]} targetObj 
+     * @return {[obj]}          
+     */
+    
     var _mixin = function(sourceObj, targetObj) {
         for (var key in sourceObj) {
             if (!(key in targetObj)) {
                 targetObj[key] = sourceObj[key];
             }
         }
+        return targetObj;
     }
 
 
-    /***
-    lite_core_selector
-    ***/
+    /**
+    *lite_core_selector
+    *
+    * Selector function. And constructor for the obj.
+    **/
 
-    var l = function(selector) {
-        return new _l(selector);
+    /**
+     * [l 
+     * The selector function]
+     * @param  {[string]} selector
+     * @param  {[obj]}    context
+     * @return {[obj]}          [a obj warps the acual dom node]
+     */
+    var l = function(selector,context) {
+        return new _l(selector,context);
     }
 
-    var _l = function(s) {
-        this.elements = document.querySelectorAll(s);
+    /**
+     * [_l 
+     * The constructor for the warpper obj.]
+     * @param  {[string]} s [selector]
+     * @param  {[obj]}    c [context]
+     */
+    var _l = function(s,c) {
+        var context = c || document;
+        if (_dataTypeOf(s) === "NodeList"){
+            this.elements = s;
+        }else{
+            this.elements = context.querySelectorAll(s);
+        }
     }
 
-    /***
-    lite-core-dom
-    ***/
+    /**
+    *lite-core-dom
+    *
+    * Dom manipulation.
+    **/
 
     _l.prototype.addClass = function(classNameArray) {
         el = this.elements;
@@ -107,21 +155,105 @@
         return newChild;
     }
 
-    /***
-    Litejs_core_UI_component
-    ***/
+    /**
+    *Litejs_core_ui_component
+    *
+    * Constructor for the UI component
+    **/
 
-    //constructor for liteUI component base class
-    function liteComponent() {
-        this.defaults = {};
-        this.prototype.init = function(options) {
-            this.options = mixin(this.defaults, this.options);
-        }
+    /**
+     * [liteComponent
+     * constructor for liteUI component base class]
+     * @based on  *Developing Web Components* 
+     * @param  {[obj]} options [description]
+     */
+    function liteComponent(options) {
+        this.init(options);
+        return this;
     }
 
-    /***
-    @Litejs-core-event
-    @source:Javascript Ninja
+    // https://github.com/jashkenas/backbone/blob/master/backbone.js#L1027
+    // cached regex to split keys for `delegate`
+    var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+    liteComponent.prototype.defaults = {};
+
+    liteComponent.prototype.init = function(options) {
+            this.options = _mixin(this.defaults, options);
+            if (_dataTypeOf(this.el) === "NodeList"){
+                this.el = l(options.el);
+            }else{
+                this.el = options.el;
+            }
+            this.bind();
+            return this;
+    }
+
+    liteComponent.prototype.event = {};
+
+    // heavily based on Backbone.View.delegateEvents
+    // https://github.com/jashkenas/backbone/blob/master/backbone.js#L1088
+    // bind using event delegation
+    liteComponent.prototype.bind = function () {
+
+        var events = this.options.events 
+
+        if (!events) {
+            return this;
+        }
+
+        // prevent double binding of events
+        this.unbind();
+
+        // iterate over events hash
+        for (var key in events) {
+            var method = events[key];
+            // if value is not a function then
+            // find corresponding instance method
+            //if (!$.isFunction(method)) {
+              //  method = this[events[key]];
+            //}
+            // if a method does not exist move
+            // to next item in the events hash
+            if (!method) {
+                continue;
+            }
+
+            // extract event name and selector from
+            // property
+            var match = key.match(delegateEventSplitter);
+            var eventName = match[1];
+            var selector = match[2];
+
+            // bind event callback to widget instance
+            //method = $.proxy(method, this);
+            if (selector.length) {
+                this.el.addEvent(eventName,method,selector);
+            } else {
+                this.el.addEvent(eventName, method);
+            }
+        }
+    };
+
+    // destroy instance
+    liteComponent.prototype.destroy = function () {
+        this.unbind();
+        //this.$el.remove();
+    };
+
+    // used to unbind event handlers
+    liteComponent.prototype.unbind = function () {
+        this.el.removeEvent();
+        return this;
+    };
+
+    l.liteComponent = liteComponent;
+
+    /**
+    *lite-core-event
+    *@source:Javascript Ninja
+    *
+    * the event system
     ***/
 
     /**
@@ -247,15 +379,15 @@
             }
         };
 
-        var addEvent = function(elem, type, target, fn) {
+        var addEvent = function(elem, type, fn, target) {
 
             var data = getData(elem);
-            var fn = fn || arguments[arguments.length-1];
-            if(target.elements){
-                target = target.elements[0];
-            }
+
             if (!data.handlers) data.handlers = {};
 
+            if(target){
+                target = document.querySelectorAll(target)[0];
+            }
             if (!data.handlers[type])
                 data.handlers[type] = [];
 
@@ -271,7 +403,7 @@
                     event = _fixEvent(event);
 
                     var handlers = data.handlers[event.type];
-                    if (handlers && (event.target === target )) {
+                    if (handlers && (target ? (event.target === target):true )) {
                         for (var n = 0; n < handlers.length; n++) {
                             handlers[n].call(elem, event);
                         }
@@ -369,10 +501,10 @@
 
     //register event apis on _l object
 
-    _l.prototype.addEvent = function(type, target, fn) {
+    _l.prototype.addEvent = function(type, fn,target) {
         var el = this.elements;
         for (var i = 0; i < el.length; i++) {
-            _event.addEvent(el[i], type, target, fn);
+            _event.addEvent(el[i], type,fn,target);
         }
     }
     _l.prototype.removeEvent = function(type, fn) {
@@ -426,7 +558,9 @@
 
     l.ajax = ajax;
 
-
+    /**
+     *  export the moudule in one of commonjs || AMD || window way
+     */
     if (typeof module !== 'undefined' && typeof exports === 'object') {
         module.exports = l;
     } else if (typeof define === 'function' && (define.amd || define.cmd)) {
