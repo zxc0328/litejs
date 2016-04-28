@@ -1,4 +1,5 @@
 bower_components
 *.html
 test
+dist
 

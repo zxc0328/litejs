@@ -4,7 +4,8 @@
   "description": "A lite weight javascript library",
   "main": "lite.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+     "build": "rollup --config rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +18,8 @@
   },
   "homepage": "https://github.com/zxc0328/litejs#readme",
   "devDependencies": {
-    "grunt-contrib-uglify": "^0.10.0",
-    "http-server": "^0.8.5"
+    "rollup": "^0.26.1"
   },
   "dependencies": {
-    "grunt": "^0.4.5"
   }
 }
