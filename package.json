@@ -5,7 +5,8 @@
   "main": "lite.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup --config rollup.config.js"
+    "build": "/usr/local/bin/rollup --config rollup.config.js",
+    "watch": "/usr/local/bin/rollup -w --config rollup.config.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,8 @@
   "homepage": "https://github.com/zxc0328/litejs#readme",
   "devDependencies": {
     "flow-bin": "^0.27.0",
-    "rollup": "^0.26.1"
+    "rollup": "^0.26.1",
+    "rollup-watch": "^2.4.0"
   },
   "dependencies": {}
 }
