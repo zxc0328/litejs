@@ -4,7 +4,7 @@
   "description": "A lite weight javascript library",
   "main": "lite.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "build": "/usr/local/bin/rollup --config rollup.config.js",
     "watch": "/usr/local/bin/rollup -w --config rollup.config.js"
   },
@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/zxc0328/litejs#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "flow-bin": "^0.27.0",
+    "mocha": "^2.5.3",
     "rollup": "^0.26.1",
     "rollup-watch": "^2.4.0"
   },

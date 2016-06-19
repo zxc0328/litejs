@@ -7,7 +7,7 @@
   var lite = function(selector, context) {
     return new lite.prototype.init(selector, context)
   }
-
+  
   lite.prototype = {
 
     constructor: lite,
@@ -44,6 +44,10 @@
       for (key in obj) {}
 
       return key === undefined || hasOwn.call(obj, key)
+    },
+
+    merge: function() {
+
     },
 
     isArray: Array.isArray
@@ -110,6 +114,6 @@
     return target
   }
 
-
+// lite.prototype.init.prototype = lite.prototype
 
 export default lite
