@@ -4,7 +4,7 @@
   "description": "A lite weight javascript library",
   "main": "lite.js",
   "scripts": {
-    "test": "mocha",
+    "test": "karma start karma.conf.js",
     "build": "/usr/local/bin/rollup --config rollup.config.js",
     "watch": "/usr/local/bin/rollup -w --config rollup.config.js"
   },
@@ -21,6 +21,9 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "flow-bin": "^0.27.0",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-mocha": "^1.0.1",
     "mocha": "^2.5.3",
     "rollup": "^0.26.1",
     "rollup-watch": "^2.4.0"
