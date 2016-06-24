@@ -102,5 +102,17 @@ describe('lite.extend()', function() {
     $.extend(true, empty, optionsWithCustomObject);
     assert.ok(empty["foo"] && empty["foo"]["date"] === customObject, "Custom objects copy correctly (no methods)");
   })
+	
+	it("Should copy null values", function () {
+		var nullUndef;
+		nullUndef = $.extend( {}, options, { "xnumber2": null } );
+		assert.ok( nullUndef[ "xnumber2" ] === null, "Check to make sure null values are copied" );
+	})	
+
+	it("Should not copy undefined values", function () {
+		var nullUndef;
+		nullUndef = $.extend( {}, options, { "xnumber2": undefined } );
+		assert.ok( nullUndef[ "xnumber2" ] === options[ "xnumber2" ], "Check to make sure undefined values are not copied" );
+	})	
 
 })
